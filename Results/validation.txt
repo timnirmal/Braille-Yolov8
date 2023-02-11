@@ -1,0 +1,14 @@
+C:\Users\timni\anaconda3\envs\Yolo\python.exe C:\Users\timni\PycharmProjects\Yolo\validation.py
+Ultralytics YOLOv8.0.33  Python-3.10.9 torch-1.13.1+cpu CPU
+YOLOv8n summary (fused): 168 layers, 3011888 parameters, 0 gradients, 8.1 GFLOPs
+val: Scanning C:\Users\timni\PycharmProjects\Yolo\datasets\valid\labels.cache... 28 images, 0 backgrounds, 0 corrupt: 100%|██████████| 28/28 [00:00<?, ?it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 2/2 [00:05<00:00,  2.87s/it]
+                   all         28       1760          0          0          0          0
+Speed: 3.1ms pre-process, 189.4ms inference, 0.0ms loss, 0.9ms post-process per image
+Ultralytics YOLOv8.0.33  Python-3.10.9 torch-1.13.1+cpu CPU
+val: Scanning C:\Users\timni\PycharmProjects\Yolo\datasets\valid\labels.cache... 28 images, 0 backgrounds, 0 corrupt: 100%|██████████| 28/28 [00:00<?, ?it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 2/2 [00:06<00:00,  3.38s/it]
+                   all         28       1760          0          0          0          0
+Speed: 3.7ms pre-process, 223.7ms inference, 0.0ms loss, 0.7ms post-process per image
+
+Process finished with exit code 0
