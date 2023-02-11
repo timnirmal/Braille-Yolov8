@@ -33,67 +33,46 @@ def pickImage():
     path = os.path.join(currentPath, "runs", "detect")
     folders = os.listdir(path)
     folders = [f for f in folders if f.startswith("predict")]
-    print(folders)
-    print("Added imagessssssssssssss")
     # remove predict from the folder name
     folders = [f.replace("predict", "") for f in folders]
-    print(folders)
     folders = [f for f in folders if f.isdigit()]
-    print(folders)
 
     # convert to int
     folders = [int(f) for f in folders]
-    print(folders)
     # sort the list
     folders.sort()
-    print(folders)
     folder = folders[-1]
-    print(folder)  # 82
 
     # Go to the folder and open the labels folder
     path = os.path.join(path, "predict" + str(folder), "labels")
-    print(path)  # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels
     files = os.listdir(path)
 
     # get the path of the file ending with .txt (Only one file)
     label_img = [f for f in files if f.endswith(".txt")]
-    print(
-        label_img)  # ['1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.txt',
-    # '1_4_jpg.rf.4434eec8ca659f13141a1a2bcf9fbc02.txt']
-    print("Added images")
 
     # get the file name from the file to the end of the string
     label_img = file.split("\\")[-1]
-    print(
-        label_img)  # C:/Users/timni/PycharmProjects/Yolo/datasets/train/images/1_3_jpg.rf
-    # .e84edefa0f76cb7c2f06809cf5b5b843.jpg
 
     # separate part after the last / in the string
     label_img = label_img[label_img.rfind("/") + 1:]
-    print(label_img)  # 1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.jpg
 
     # remove the file extension by considering the last . in the string
     label_img = label_img[:label_img.rfind(".")]
-    print(label_img)  # 1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843
 
     # join the file name with the path
     label_img = os.path.join(path, label_img)
-    print(
-        label_img)  # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels\1_3_jpg.rf
-    # .e84edefa0f76cb7c2f06809cf5b5b843
 
     # add the file extension
     label_img = label_img + ".txt"
-    print(
-        label_img)  # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels\1_3_jpg.rf
-    # .e84edefa0f76cb7c2f06809cf5b5b843.txt
+    print(label_img)
+    print("txt location : ", label_img)
 
     global data
 
     # open the file and read the data
     new_file = open(label_img, 'r')
     data = new_file.readlines()
-    print(data)
+    print("Data Loaded : ", data)
     new_file.close()
 
     img = cv2.imread(file)
@@ -129,7 +108,8 @@ def pickImage():
     label.image = img
     label.place(x=80, y=80)
 
-    # ['0', '1', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '2', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '3', '30', '31', '4', '5', '6', '7', '8', '9']
+    # ['0', '1', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '2', '20', '21', '22', '23', '24', '25',
+    # '26', '27', '28', '29', '3', '30', '31', '4', '5', '6', '7', '8', '9']
 
     braille = {
         0: [1, 0, 0, 0, 0, 0],
@@ -150,29 +130,25 @@ def pickImage():
         15: [1, 1, 1, 0, 0, 1],
         16: [1, 1, 0, 1, 0, 0],
         17: [1, 0, 1, 0, 0, 0],
-        18: [1, 1, 1, 0, 0, 1],
-        19: [1, 1, 1, 0, 0, 0],
-        20: [1, 1, 0, 1, 1, 1],
-        21: [1, 1, 0, 1, 1, 0],
-        22: [1, 1, 0, 1, 0, 1],
-        23: [1, 1, 0, 1, 0, 0],
-        24: [1, 1, 0, 0, 1, 1],
-        25: [1, 1, 0, 0, 1, 0],
-        26: [1, 1, 0, 0, 0, 1],
-        27: [1, 1, 0, 0, 0, 0],
+        18: [1, 0, 0, 1, 1, 1],
+        19: [1, 1, 0, 1, 1, 0],
+        20: [1, 1, 0, 0, 1, 0],
+        21: [1, 1, 0, 1, 1, 1],
+        22: [1, 0, 1, 1, 1, 0],
+        23: [1, 0, 1, 0, 1, 0],
+        24: [1, 0, 1, 0, 1, 1],
+        25: [0, 1, 1, 0, 1, 0],
+        26: [1, 0, 1, 1, 0, 0],
+        27: [0, 1, 0, 1, 0, 1],
         28: [1, 0, 1, 1, 1, 0],
         29: [1, 0, 1, 1, 1, 1],
-        30: [1, 0, 1, 1, 0, 1],
+        30: [1, 0, 1, 1, 0, 1]
 
     }
 
     """Braille Section"""
     """Braille Section"""
     """Braille Section"""
-
-    print(data)
-    print(data)
-    print(data)
 
     for dt in data:
         # Split string to float
@@ -199,7 +175,9 @@ def tksleep(t):
     root.wait_variable(var)
 
 
-def braille_set(braille_pattern=[0, 0, 0, 0, 0, 0]):
+def braille_set(braille_pattern=None):
+    if braille_pattern is None:
+        braille_pattern = [0, 0, 0, 0, 0, 0]
     c = Canvas(middle, width=250, height=350)
     # Draw an Oval in the canvas
     # create 2x3 grid of colored circles with 50px radius and 10px spacing between them different variable names
