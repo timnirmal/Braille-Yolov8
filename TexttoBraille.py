@@ -33,50 +33,17 @@ def pickImage():
     img = cv2.imread(file)
     dh, dw, _ = img.shape
 
-    print("data")
-    print(data)
-    print()
-
-    print("dw")
-    print(dw)
-    print()
-
-    print("dh")
-    print(dh)
-    print()
-
-    print("img.shape")
-    print(img.shape)
-    print()
-
     for dt in data:
-
         # Split string to float
         _, x, y, w, h = map(float, dt.split(' '))
 
-        print("x")
-        print(x)
-        print()
-
-        print("y")
-        print(y)
-        print()
-
-        print("w")
-        print(w)
-        print()
-
-        print("h")
-        print(h)
-        print()
-
-        # Taken from https://github.com/pjreddie/darknet/blob/810d7f797bdb2f021dbe65d2524c2ff6b8ab5c8b/src/image.c#L283-L291
-        # via https://stackoverflow.com/questions/44544471/how-to-get-the-coordinates-of-the-bounding-box-in-yolo-object-detection#comment102178409_44592380
+        # Convert to pixel
         l = int((x - w / 2) * dw)
         r = int((x + w / 2) * dw)
         t = int((y - h / 2) * dh)
         b = int((y + h / 2) * dh)
 
+        # Check boundary
         if l < 0:
             l = 0
         if r > dw - 1:
@@ -86,35 +53,15 @@ def pickImage():
         if b > dh - 1:
             b = dh - 1
 
+        # Draw rectangle
         cv2.rectangle(img, (l, t), (r, b), (0, 0, 255), 1)
-
-    # plt.imshow(img)
-    # plt.show()
 
     # show the image in the gui
     image1 = Image.fromarray(img)
     img = ImageTk.PhotoImage(image1)
-    # panel = tk.Label(root, image=img)
-    # panel.grid(column=0, row=0)
-
-    # img = PhotoImage(file='image 2.png')
-    # label = Label(root, image=img, width=34, height=48, bg='white')
     label = Label(middle, image=img, bg='red')
-    # resize image to fit label size
     label.image = img
     label.place(x=80, y=80)
-
-    # # show the result in the gui
-    # txt = scrolledtext.ScrolledText(root, width=40, height=10)
-    # txt.grid(column=0, row=1)
-    # txt.insert(INSERT, result)
-    # txt.configure(state='disabled')
-
-    # # create 3x2 grid of colored circles
-    # for row in range(3):
-    #     for col in range(2):
-    #         color = "red" if row % 2 == col % 2 else "black"
-    #         tk.Label(middle, text=".", bg=color, width=2, height=1).grid(row=row, column=col)
 
 
 if __name__ == '__main__':
