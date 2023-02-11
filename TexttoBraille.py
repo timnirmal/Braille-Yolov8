@@ -154,6 +154,36 @@ if __name__ == '__main__':
     btn = tk.Button(middle, text="Pick Image", font=('arial', 15), width=10, height=1, bg='green', fg='white',command=pickImage)
     btn.place(x=200, y=530)
 
+    # show text "Braille" right to the image
+    lbl = tk.Label(middle, text="Braille", font=("Arial Bold", 20))
+    lbl.place(x=600, y=80)
 
-    # start the gui
+
+
+
+    """Braille Section"""
+
+    braille_pattern = [0,1,0,1,1,1]
+
+    c = Canvas(middle, width=400, height=300)
+    # Draw an Oval in the canvas
+    # create 2x3 grid of colored circles with 50px radius and 10px spacing between them different variable names
+    # if braille_pattern[0] == 1: color = "black" else: color = "white"
+
+    c1 = "black" if braille_pattern[0] == 1 else "white"
+    c2 = "black" if braille_pattern[1] == 1 else "white"
+    c3 = "black" if braille_pattern[2] == 1 else "white"
+    c4 = "black" if braille_pattern[3] == 1 else "white"
+    c5 = "black" if braille_pattern[4] == 1 else "white"
+    c6 = "black" if braille_pattern[5] == 1 else "white"
+
+    c.create_oval(50, 50, 100, 100, fill=c1)
+    c.create_oval(150, 50, 200, 100, fill=c2)
+    c.create_oval(50, 150, 100, 200, fill=c3)
+    c.create_oval(150, 150, 200, 200, fill=c4)
+    c.create_oval(50, 250, 100, 300, fill=c5)
+    c.create_oval(150, 250, 200, 300, fill=c6)
+
+    c.place(x=600, y=120)
+
     root.mainloop()
