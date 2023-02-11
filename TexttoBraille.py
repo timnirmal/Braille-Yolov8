@@ -1,18 +1,15 @@
 import os
-import time
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
 import cv2
 from PIL import Image, ImageTk
-from matplotlib import pyplot as plt
 
 from lib import predict
 
-openFilePath = r"C:\Users\timni\PycharmProjects\Yolo\datasets\train\images"
-
+currentPath = os.getcwd()
+openFilePath = os.path.join(currentPath, "datasets", "train", "images")
 placeHolderImagePath = r"placeholder.jpg"
-
 data = []
 
 
@@ -28,14 +25,16 @@ def pickImage():
     label.place(x=80, y=80)
 
     # predict the image
-    result = predict.predict(file)
+    predict.predict(file)
+    print("Predicted image")
 
     """ Result from run folder"""
     # find the folder named predict in runs/detect with the highest number
-    path = r"C:\Users\timni\PycharmProjects\Yolo\runs\detect"
+    path = os.path.join(currentPath, "runs", "detect")
     folders = os.listdir(path)
     folders = [f for f in folders if f.startswith("predict")]
     print(folders)
+    print("Added imagessssssssssssss")
     # remove predict from the folder name
     folders = [f.replace("predict", "") for f in folders]
     print(folders)
@@ -49,71 +48,53 @@ def pickImage():
     folders.sort()
     print(folders)
     folder = folders[-1]
-    print(folder)    #82
+    print(folder)  # 82
 
     # Go to the folder and open the labels folder
     path = os.path.join(path, "predict" + str(folder), "labels")
-    print(path)      #C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels
+    print(path)  # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels
     files = os.listdir(path)
 
     # get the path of the file ending with .txt (Only one file)
     label_img = [f for f in files if f.endswith(".txt")]
-    print(label_img)   #['1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.txt', '1_4_jpg.rf.4434eec8ca659f13141a1a2bcf9fbc02.txt']
+    print(
+        label_img)  # ['1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.txt',
+    # '1_4_jpg.rf.4434eec8ca659f13141a1a2bcf9fbc02.txt']
     print("Added images")
 
     # get the file name from the file to the end of the string
     label_img = file.split("\\")[-1]
-    print(label_img)     #C:/Users/timni/PycharmProjects/Yolo/datasets/train/images/1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.jpg
+    print(
+        label_img)  # C:/Users/timni/PycharmProjects/Yolo/datasets/train/images/1_3_jpg.rf
+    # .e84edefa0f76cb7c2f06809cf5b5b843.jpg
 
     # separate part after the last / in the string
     label_img = label_img[label_img.rfind("/") + 1:]
-    print(label_img)    #1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.jpg
+    print(label_img)  # 1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.jpg
 
     # remove the file extension by considering the last . in the string
     label_img = label_img[:label_img.rfind(".")]
-    print(label_img)      #1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843
+    print(label_img)  # 1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843
 
     # join the file name with the path
     label_img = os.path.join(path, label_img)
-    print(label_img)     #C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels\1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843
+    print(
+        label_img)  # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels\1_3_jpg.rf
+    # .e84edefa0f76cb7c2f06809cf5b5b843
 
     # add the file extension
     label_img = label_img + ".txt"
-    print(label_img)   # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels\1_3_jpg.rf.e84edefa0f76cb7c2f06809cf5b5b843.txt
+    print(
+        label_img)  # C:\Users\timni\PycharmProjects\Yolo\runs\detect\predict82\labels\1_3_jpg.rf
+    # .e84edefa0f76cb7c2f06809cf5b5b843.txt
 
-
-    # get the file with the same name as the image
-    # label_img = [f for f in label_img if f == file_name]
-    # print(label_img)
-    #
-    #
-    #
-    #
-    # # sort the files by date modified
-    # label_img.sort(key=lambda x: os.path.getmtime(os.path.join(path, x)))
-    # print(label_img)
-    # # get the last file
-    # # label_img = label_img[-1]
-    # print(label_img)
-    # # get the path of the file
-    # label_img = os.path.join(path, label_img[0])
-    # print(label_img)
+    global data
 
     # open the file and read the data
     new_file = open(label_img, 'r')
-    datas = new_file.readlines()
-    print(datas)
-    print(datas)
-    print(datas)
-    print(datas)
-    new_file.close()
-
-    global data
-    data = datas
-    # data = fl.readlines()
-    # fl.close()
-    print()
+    data = new_file.readlines()
     print(data)
+    new_file.close()
 
     img = cv2.imread(file)
     dh, dw, _ = img.shape
