@@ -10,6 +10,8 @@ from lib import predict
 
 openFilePath = r"C:\Users\timni\PycharmProjects\Yolo\datasets\train\images"
 
+placeHolderImagePath = r"placeholder.jpg"
+
 data = []
 
 
@@ -130,15 +132,13 @@ def pickImage():
             braille_set(braille_pattern)
 
 
-def nullFunction():
-    print("null")
-
 def tksleep(t):
     ms = int(t)
     root = tk._get_default_root()
     var = tk.IntVar(root)
     root.after(ms, lambda: var.set(1))
     root.wait_variable(var)
+
 
 def braille_set(braille_pattern=[0, 0, 0, 0, 0, 0]):
     c = Canvas(middle, width=250, height=350)
@@ -159,8 +159,7 @@ def braille_set(braille_pattern=[0, 0, 0, 0, 0, 0]):
     c.create_oval(150, 250, 200, 300, fill=c6)
     c.place(x=600, y=120)
 
-    # sleep for 500 millisecond and then destroy the canvas
-    # c.after(5000, nullFunction)
+    # sleep for 500 millisecond
     tksleep(500)
 
 
@@ -170,27 +169,23 @@ if __name__ == '__main__':
     root.title("Text to Braille")
 
     # Create Frames
-    top = Frame(root, width=1440, height=100, bg='white')
+    top = Frame(root, width=940, height=100, bg='white')
     top.pack(side=TOP)
-    middle = Frame(root, width=1440, height=630, bg='white')
+    middle = Frame(root, width=940, height=630, bg='white')
     middle.pack(side=TOP)
 
     # Create Widgets
 
     """Top Section"""
-    """Top Section"""
-    """Top Section"""
 
     # create a label as title in center
-    lbl = tk.Label(top, text="Text to Braille", font=("Arial Bold", 40))
+    lbl = tk.Label(top, text="Text to Braille", font=("Arial Bold", 40), fg='black')
     lbl.grid()
 
     """Image Section"""
-    """Image Section"""
-    """Image Section"""
 
     # show the image in the gui
-    placeHolderImageOpen = Image.open('test.jpg')
+    placeHolderImageOpen = Image.open(placeHolderImagePath)
     placeHolderImage = ImageTk.PhotoImage(placeHolderImageOpen)
     label = Label(middle, image=placeHolderImage, bg='red', width=416, height=416)
     label.place(x=80, y=80)
@@ -199,6 +194,8 @@ if __name__ == '__main__':
     btn = tk.Button(middle, text="Pick Image", font=('arial', 15), width=10, height=1, bg='green', fg='white',
                     command=pickImage)
     btn.place(x=200, y=530)
+
+    """Braille Section"""
 
     # show text "Braille" right to the image
     lbl = tk.Label(middle, text="Braille", font=("Arial Bold", 20))
