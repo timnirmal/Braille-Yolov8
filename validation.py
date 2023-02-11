@@ -1,7 +1,8 @@
 from ultralytics import YOLO
 
+# Load model
 model = YOLO("model.pt")
-# It'll use the data yaml file in model.pt if you don't set data.
+
+# Validate model
 model.val(data="datasets/data.yaml")
-# model.val()
-# or you can set the data you want to val
+
