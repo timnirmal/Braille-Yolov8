@@ -1,5 +1,9 @@
-install 
-`pip install ultralytics`
+First install all the packages needed.
 
-Change openFilePath = r"C:\Users\timni\PycharmProjects\Yolo\datasets\train\images"
- to your own path of the images
+Using Pycharm is recommended as it is easy to configure with it.
+It will automatically show a button to install requirement.txt 
+
+If installation error occurs for below packages install manually in terminal.
+
+    - install `pip install ultralytics`
+

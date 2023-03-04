@@ -24,7 +24,7 @@ def pickImage():
     image = cv2.imread(file)
     height, width, channels = image.shape
 
-    scaled_image = image
+    global scaled_image
 
     # if the image is 416x416
     if height == 416 and width == 416:
@@ -33,6 +33,10 @@ def pickImage():
         img = ImageTk.PhotoImage(image1)
         label = Label(middle, image=img, bg='red')
         label.place(x=80, y=80)
+
+        # exit program
+        exit()
+
     else:
         if height < 120 or width < 120:
             # scale the image
@@ -40,50 +44,53 @@ def pickImage():
             # scale the image to 416x416
             scaled_image = cv2.resize(scaled_image, (416, 416))
 
+            # show image shape
+            height, width, channels = scaled_image.shape
+            print("Scaled image shape: ", height, width, channels)
+
             # save the scaled image
             cv2.imwrite('Results/{:s}_rlt.png'.format("000_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a"), scaled_image)
+
+            # get the file path
+            file = os.path.join(currentPath, "Results", "000_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a_rlt.png")
+            image1 = Image.open(file)
+            img = ImageTk.PhotoImage(image1)
+            label = Label(middle, image=img, bg='red')
+            label.place(x=80, y=80)
+
+            # predict the image
+            predict.predict(file)
+            print("Predicted image")
+
+        else:
+            # scale the image to 416x416
+            scaled_image = cv2.resize(image, (416, 416))
+
+            # draw a rectangle in the middle of the image
+            cv2.rectangle(scaled_image, (208, 208), (208, 208), (0, 0, 255), 2)
 
             # show image shape
             height, width, channels = scaled_image.shape
             print("Scaled image shape: ", height, width, channels)
 
-            # show the image in the gui
-            image1 = Image.fromarray((scaled_image * 1).astype(np.uint8)).convert('RGB')
-            # save the image
-            image1.save('Results/{:s}_rlt.png'.format("111_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a"))
+            # save the scaled image
+            cv2.imwrite('Results/{:s}_rlt.png'.format("000_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a"), scaled_image)
 
-            img = ImageTk.PhotoImage(image1)
-            label = Label(middle, image=img, bg='red')
-            label.place(x=80, y=80)
-        else:
-            # scale the image to 416x416
-            scaled_image = cv2.resize(image, (416, 416))
-
-            # show the image in the gui
-            image1 = Image.open(scaled_image)
+            # get the file path
+            file = os.path.join(currentPath, "Results", "000_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a_rlt.png")
+            image1 = Image.open(file)
             img = ImageTk.PhotoImage(image1)
             label = Label(middle, image=img, bg='red')
             label.place(x=80, y=80)
 
-        # # show image in opencv only rgb channels
-        # cv2.imshow("image", image[:, :, [2, 1, 0]])
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+            # predict the image
+            predict.predict(file)
+            print("Predicted image")
 
-
-
-        # show the image in the gui
-        # image1 = Image.fromarray(image)
-        # img = ImageTk.PhotoImage(image1)
-        # label = Label(middle, image=img, bg='red')
-        # label.place(x=80, y=80)
-
-
-
-
-    # predict the image
-    predict.predict(file)
-    print("Predicted image")
+    # show the scaled image in opencv
+    cv2.imshow("Scaled Image", scaled_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     """ Result from run folder"""
     # find the folder named predict in runs/detect with the highest number
