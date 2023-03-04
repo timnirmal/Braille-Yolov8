@@ -3,9 +3,11 @@ import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
 import cv2
+import numpy as np
 from PIL import Image, ImageTk
 
 from lib import predict
+from lib.sr import scale
 
 currentPath = os.getcwd()
 openFilePath = os.path.join(currentPath, "datasets", "train", "images")
@@ -18,11 +20,66 @@ def pickImage():
                                       filetypes=(('JPG', '*.jpg'), ('All Files', '*.*')))
     print(file)
 
-    # show the image in the gui
-    image1 = Image.open(file)
-    img = ImageTk.PhotoImage(image1)
-    label = Label(middle, image=img, bg='red')
-    label.place(x=80, y=80)
+    # if the image is less than 120x120, resize it
+    image = cv2.imread(file)
+    height, width, channels = image.shape
+
+    scaled_image = image
+
+    # if the image is 416x416
+    if height == 416 and width == 416:
+        # show the image in the gui
+        image1 = Image.open(file)
+        img = ImageTk.PhotoImage(image1)
+        label = Label(middle, image=img, bg='red')
+        label.place(x=80, y=80)
+    else:
+        if height < 120 or width < 120:
+            # scale the image
+            scaled_image = scale.scale_image(file)
+            # scale the image to 416x416
+            scaled_image = cv2.resize(scaled_image, (416, 416))
+
+            # save the scaled image
+            cv2.imwrite('Results/{:s}_rlt.png'.format("000_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a"), scaled_image)
+
+            # show image shape
+            height, width, channels = scaled_image.shape
+            print("Scaled image shape: ", height, width, channels)
+
+            # show the image in the gui
+            image1 = Image.fromarray((scaled_image * 1).astype(np.uint8)).convert('RGB')
+            # save the image
+            image1.save('Results/{:s}_rlt.png'.format("111_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a"))
+
+            img = ImageTk.PhotoImage(image1)
+            label = Label(middle, image=img, bg='red')
+            label.place(x=80, y=80)
+        else:
+            # scale the image to 416x416
+            scaled_image = cv2.resize(image, (416, 416))
+
+            # show the image in the gui
+            image1 = Image.open(scaled_image)
+            img = ImageTk.PhotoImage(image1)
+            label = Label(middle, image=img, bg='red')
+            label.place(x=80, y=80)
+
+        # # show image in opencv only rgb channels
+        # cv2.imshow("image", image[:, :, [2, 1, 0]])
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+
+
+        # show the image in the gui
+        # image1 = Image.fromarray(image)
+        # img = ImageTk.PhotoImage(image1)
+        # label = Label(middle, image=img, bg='red')
+        # label.place(x=80, y=80)
+
+
+
 
     # predict the image
     predict.predict(file)
