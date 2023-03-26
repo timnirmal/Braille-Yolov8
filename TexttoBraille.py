@@ -10,7 +10,7 @@ from lib import predict
 from lib.sr import scale
 
 currentPath = os.getcwd()
-openFilePath = os.path.join(currentPath, "datasets", "train", "images")
+openFilePath = os.path.join(currentPath, "test_images")
 placeHolderImagePath = r"placeholder.jpg"
 data = []
 
@@ -26,6 +26,8 @@ def pickImage():
 
     global scaled_image
 
+    """LOAD IMAGE"""
+
     # if the image is 416x416
     if height == 416 and width == 416:
         # show the image in the gui
@@ -34,8 +36,11 @@ def pickImage():
         label = Label(middle, image=img, bg='red')
         label.place(x=80, y=80)
 
-        # exit program
-        exit()
+        # predict the image
+        predict.predict(file)
+        print("Predicted image")
+
+
 
     else:
         if height < 120 or width < 120:
@@ -87,10 +92,6 @@ def pickImage():
             predict.predict(file)
             print("Predicted image")
 
-    # show the scaled image in opencv
-    cv2.imshow("Scaled Image", scaled_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
     """ Result from run folder"""
     # find the folder named predict in runs/detect with the highest number
@@ -123,11 +124,18 @@ def pickImage():
     # remove the file extension by considering the last . in the string
     label_img = label_img[:label_img.rfind(".")]
 
+    # add _rlt to the end of the file name
+    # label_img = label_img + "_rlt"
+
+    # add 00 to start og label_img
+    # label_img = "00" + label_img
+
     # join the file name with the path
     label_img = os.path.join(path, label_img)
 
     # add the file extension
     label_img = label_img + ".txt"
+
     print(label_img)
     print("txt location : ", label_img)
 
