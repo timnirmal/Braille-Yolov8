@@ -1,6 +1,5 @@
 import os
-import os.path as osp
-import glob
+
 import cv2
 import numpy as np
 import torch
@@ -46,8 +45,4 @@ def scale_image(image_path):
 
 test_img_name = r"C:\Users\timni\PycharmProjects\Yolo\datasets\super_resolution\0_2_jpg.rf.76b9c6cba32571b357830b5f3e74db1a.jpg"
 
-
 # output = scale_image(test_img_name)
-
-
-

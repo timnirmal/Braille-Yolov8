@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
+
 import cv2
 from PIL import Image, ImageTk
-from matplotlib import pyplot as plt
 
 from lib import predict
 
@@ -75,7 +75,6 @@ if __name__ == '__main__':
     middle = Frame(root, width=1440, height=630, bg='white')
     middle.pack(side=TOP)
 
-
     # Create Widgets
 
     """Top Section"""
@@ -85,7 +84,6 @@ if __name__ == '__main__':
     # create a label as title in center
     lbl = tk.Label(top, text="Text to Braille", font=("Arial Bold", 40))
     lbl.grid()
-
 
     """Image Section"""
     """Image Section"""
@@ -98,8 +96,8 @@ if __name__ == '__main__':
     label.place(x=80, y=80)
 
     # Button below the image to pick image and command= pickImage
-    btn = tk.Button(middle, text="Pick Image", font=('arial', 15), width=10, height=1, bg='green', fg='white',command=pickImage)
+    btn = tk.Button(middle, text="Pick Image", font=('arial', 15), width=10, height=1, bg='green', fg='white',
+                    command=pickImage)
     btn.place(x=200, y=530)
-
 
     root.mainloop()

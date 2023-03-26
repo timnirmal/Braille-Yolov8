@@ -2,8 +2,8 @@ import os
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
+
 import cv2
-import numpy as np
 from PIL import Image, ImageTk
 
 from lib import predict
@@ -91,7 +91,6 @@ def pickImage():
             # predict the image
             predict.predict(file)
             print("Predicted image")
-
 
     """ Result from run folder"""
     # find the folder named predict in runs/detect with the highest number
